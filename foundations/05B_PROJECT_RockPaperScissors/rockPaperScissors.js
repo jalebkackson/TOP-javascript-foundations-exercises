@@ -5,59 +5,83 @@ const winCounter = document.querySelector(".wins");
 const lossCounter = document.querySelector(".losses");
 let wins = 0;
 let losses = 0;
+let playerChoice = ""
+let computerChoice = ""
 
-// 1 rock
-// 2 paper
-// 3 scissors
+
+// rock = 1, paper = 2, scissors = 3
 const getComputerChoice = () => {
   const randomNum = Math.floor(Math.random() * 3) + 1;
-  return randomNum;
+  if (randomNum === 1) {
+    computerChoice = "rock"
+  } else if (randomNum === 2) {
+    computerChoice = "paper"
+  } else if (randomNum === 3) {
+    computerChoice = "scissors"
+  }
+  return computerChoice;
 };
 
+const playRound = ()=> {
+  if (playerChoice === computerChoice) {
+    console.log("Computer chose " + computerChoice + " Its a DRAW")
+  }
+  else if (playerChoice === "rock" && computerChoice === "paper") {
+    console.log("computer chose " + computerChoice + " YOU LOSE")
+    losses++
+  } else if (playerChoice === "rock" && computerChoice === "scissors") {
+    console.log("computer chose " + computerChoice + " YOU WIN")
+    wins++
+  } else if (playerChoice === "paper" && computerChoice === "scissors") {
+    console.log("computer chose " + computerChoice + " YOU LOSE")
+    losses++
+  } else if (playerChoice === "paper" && computerChoice === "rock"){
+    console.log("computer chose " + computerChoice + " YOU WIN")
+    wins++
+  } else if (playerChoice === "scissors" && computerChoice === "rock") {
+    console.log("computer chose " + computerChoice + " YOU LOSE")
+    losses++
+  } else if (playerChoice === "scissors" && computerChoice === "paper"){
+    console.log("computer chose " + computerChoice + " YOU WIN")
+    wins++
+  }  
+  winCounter.innerText = wins;
+  lossCounter.innerText = losses;
+}
+
+// player Chooses rock
 userRock.addEventListener("click", () => {
-  const computerChoice = getComputerChoice();
+  playerChoice = "rock"
+  getComputerChoice();
 
-  if (computerChoice === 1) {
-    console.log("computer chose rock, its a draw");
-  } else if (computerChoice === 2) {
-    console.log("computer chose paper, YOU LOSE BITCH");
-    losses++;
-    lossCounter.innerText = losses;
-  } else if (computerChoice === 3) {
-    console.log("computer chose Scissors, YOU WIN");
-    wins++;
-    winCounter.innerText = wins;
-  }
+  playRound();
+  checkScore();
 });
 
+// Player chooses paper
 userPaper.addEventListener("click", () => {
-  const computerChoice = getComputerChoice();
+  playerChoice = "paper"
+  getComputerChoice();
 
-  if (computerChoice === 1) {
-    console.log("computer chose rock, YOU WIN!!!!@!@!");
-    wins++;
-    winCounter.innerText = wins;
-  } else if (computerChoice === 2) {
-    console.log("computer chose paper, It's a fucking draw");
-  } else if (computerChoice === 3) {
-    console.log("computer chose Scissors, YOU FUCKING SUCK");
-    losses++;
-    lossCounter.innerText = losses;
-  }
+  playRound()  
+  checkScore();
 });
 
+// player chooses scissors
 userScissors.addEventListener("click", () => {
-  const computerChoice = getComputerChoice();
+  playerChoice = "scissors"
+  getComputerChoice();
 
-  if (computerChoice === 1) {
-    console.log("computer chose rock, LOSER FAGGOT!!!");
-    losses++;
-    lossCounter.innerText = losses;
-  } else if (computerChoice === 2) {
-    console.log("computer chose paper, YOU WIN!!!!");
-    wins++;
-    winCounter.innerText = wins;
-  } else if (computerChoice === 3) {
-    console.log("computer chose Scissors, DRAAAWWW");
-  }
+  playRound();
+  checkScore();
 });
+
+const checkScore = () => {
+  if (wins >= 5 || losses >= 5) {
+    if (wins >= 5) {
+      alert("Game: YOU WIN")
+    } else {
+      alert("GAME: COMPUTER WINS YOU SUCK")
+    }
+  };
+};
